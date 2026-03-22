@@ -17,11 +17,9 @@ This skill activates when:
 
 This skill requires:
 - `gh` CLI installed and authenticated (`gh auth status`)
-- `GH_USER_SESSION` environment variable set to your GitHub browser session cookie
+- `GH_USER_SESSION` environment variable set (run `./setup.sh && source .env` in the plugin directory)
 - `uv` installed (for the upload tool)
 - The `gh-issue-attachments` tool synced (`cd <plugin-dir> && uv sync`)
-
-Find your session cookie: Browser DevTools -> Application -> Cookies -> github.com -> `user_session`
 
 ## Workflow
 

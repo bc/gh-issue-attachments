@@ -43,10 +43,12 @@ git clone https://github.com/bc/gh-issue-attachments.git
 cd gh-issue-attachments
 uv sync
 
-# Set your GitHub session cookie (required for uploads)
-# Get it from: Browser DevTools → Application → Cookies → github.com → user_session
-export GH_USER_SESSION='your_cookie_value'
+# Authenticate — opens a browser, you log in, it grabs the cookie
+./setup.sh
+source .env
 ```
+
+The setup script uses [playwright-cli](https://www.npmjs.com/package/playwright-cli) to open a browser window for GitHub login, then automatically extracts the `user_session` cookie and saves it to `.env`. Re-run it when your session expires.
 
 ## Usage
 

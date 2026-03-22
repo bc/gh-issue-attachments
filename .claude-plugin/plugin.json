@@ -1,0 +1,14 @@
+{
+  "name": "gh-issue-attachments",
+  "description": "Upload images, videos, and files to GitHub issues. Includes a 'lab notebook' skill for documenting work with inline attachments.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Brian Cohn"
+  },
+  "homepage": "https://github.com/bc/gh-issue-attachments",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bc/gh-issue-attachments.git"
+  },
+  "license": "MIT"
+}

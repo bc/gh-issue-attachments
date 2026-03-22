@@ -1,0 +1,6 @@
+__pycache__/
+*.pyc
+.venv/
+.playwright-cli/
+dist/
+*.egg-info/

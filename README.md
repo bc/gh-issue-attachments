@@ -6,17 +6,27 @@ GitHub has no public API for attaching files to issues. This tool reverse-engine
 
 ## How it works
 
-```
-Your machine              github.com              AWS S3
-    │                         │                      │
-    ├── POST /upload/policies ──▶ returns presigned URL + form fields
-    │                         │                      │
-    ├─────────────────────────┼── POST file ────────▶│ 204
-    │                         │                      │
-    ├── PUT /upload/assets ───▶ confirms, returns final URL
-    │                         │                      │
-    ▼                         │                      │
-  https://github.com/user-attachments/assets/{uuid}
+```mermaid
+sequenceDiagram
+    participant C as gh-attach
+    participant G as github.com
+    participant S as AWS S3
+
+    C->>G: GET /owner/repo (preflight)
+    G-->>C: _gh_sess cookie + fetch-nonce
+
+    C->>G: POST /upload/policies/assets
+    Note right of C: repo_id, filename, size, content_type
+    G-->>C: 201: S3 presigned URL + form fields + asset ID
+
+    C->>S: POST file + signed form fields
+    S-->>C: 204 No Content
+
+    C->>G: PUT /upload/assets/{id}
+    Note right of C: authenticity_token
+    G-->>C: 200: final href URL
+
+    Note over C: https://github.com/user-attachments/assets/{uuid}
 ```
 
 **Supported:** PNG, JPG, GIF, SVG, MP4, MOV, ZIP, PDF, and anything else GitHub's web UI accepts.
@@ -77,9 +87,19 @@ This repo includes a Claude Code skill called **lab-notebook** that documents yo
 
 ### Use it
 
+Either invoke it directly:
+
 ```
 /lab-notebook debug the flaky auth test in CI
 ```
+
+Or just mention it inline:
+
+> use the lab-notebook skill to debug the flaky auth test in CI
+
+> fix the pagination bug and track it with a lab notebook
+
+> create a lab notebook issue and investigate why the deploy is slow
 
 Claude will:
 1. Create a GitHub issue titled "Lab: debug the flaky auth test in CI"

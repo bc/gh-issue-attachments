@@ -1,6 +1,6 @@
 ---
 name: lab-notebook
-description: "Create a GitHub issue as a lab notebook, attach screenshots and files as you work, then open the issue when done. Use this when doing exploratory work, debugging sessions, or multi-step tasks that benefit from a visual record."
+description: "Create a GitHub issue as a lab notebook, attach screenshots and files as you work, then open the issue when done. Trigger when the user says 'lab notebook', 'lab-notebook', or asks to track/document work in a GitHub issue with attachments."
 allowed-tools: Bash, Read, Write, Glob, Grep, Agent
 user-invocable: true
 ---
@@ -8,6 +8,10 @@ user-invocable: true
 # Lab Notebook
 
 Create a GitHub issue to document your work session. As you complete tasks, attach screenshots, code snippets, and files as comments on the issue. When finished, open the issue in the browser as a complete record.
+
+This skill activates when:
+- The user invokes `/lab-notebook <topic>` directly
+- The user mentions "lab notebook" or "lab-notebook" inline (e.g. "use the lab-notebook skill to fix XYZ")
 
 ## Setup
 
@@ -19,10 +23,6 @@ This skill requires:
 
 Find your session cookie: Browser DevTools -> Application -> Cookies -> github.com -> `user_session`
 
-## Arguments
-
-`$ARGUMENTS` is the title/topic for the lab notebook issue. If a repo is not obvious from the current directory, include it as `owner/repo: title`.
-
 ## Workflow
 
 Follow these steps exactly:
@@ -33,10 +33,11 @@ Check if the current directory is a git repo with a GitHub remote:
 ```bash
 gh repo view --json nameWithOwner --jq .nameWithOwner
 ```
-If that fails, parse the repo from `$ARGUMENTS` (format: `owner/repo: title`).
+If that fails, ask the user which repo to use.
 
 ### 2. Create the issue
 
+Extract a short title from the user's request. Create the issue:
 ```bash
 gh issue create --title "Lab: $TITLE" --body "Lab notebook created by Claude Code." --json number,url
 ```

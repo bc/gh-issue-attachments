@@ -56,7 +56,3 @@ Adds a **lab-notebook** skill. Invoke it directly or mention it inline:
 > use the lab-notebook skill to investigate why the deploy is slow
 
 Creates a GitHub issue, works on the task, attaches screenshots and notes as comments along the way, then opens the finished issue in your browser.
-
-## License
-
-MIT
